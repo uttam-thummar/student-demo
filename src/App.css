@@ -1,39 +1,388 @@
-.App {
+/* StudentFrom css begin */
+.student-from .indent-small {
+  margin-left: 5px;
+}
+
+.student-from .form-group.internal {
+  margin-bottom: 0;
+}
+
+.student-from .dialog-panel {
+  margin: 10px;
+}
+
+.student-from .student-check-input {
+  margin-right: 5px;
+}
+
+.student-from .student-check-control {
+  margin-right: 15px;
+}
+
+.student-from .student-check-label,
+.student-from .student-region-label {
+  font-weight: 600;
+  color: #777;
+}
+
+.student-from .student-check-group {
+  display: flex;
+}
+
+.student-from .student-region-group {
+  margin-top: 10px;
+}
+
+.student-from .multiSelectContainer {
+  position: relative;
+  text-align: left;
+  width: 73%;
+  margin-left: 15px;
+}
+
+.student-from .multiSelectContainer input {
+  width: 100%;
+}
+
+.student-from .invalid-feedback {
+  color: #f00;
+  font-size: small;
+  margin-top: 4px;
+
+}
+
+.student-from .panel-body {
+
+  background: #e5e5e5;
+  /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #e5e5e5), color-stop(100%, #ffffff));
+  /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #e5e5e5 0%, #ffffff 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#ffffff', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+
+  font: 600 15px "Open Sans", Arial, sans-serif;
+}
+
+.student-from label.control-label {
+  font-weight: 600;
+  color: #777;
+}
+
+/* StudentForm css end */
+
+/* StudentList css begin */
+.student-list.container {
+  margin: 5% 3%;
+}
+
+@media (min-width: 48em) {
+  .student-list.container {
+    margin: 2%;
+  }
+}
+
+@media (min-width: 75em) {
+  .student-list.container {
+    margin: 2em auto;
+    max-width: 100em;
+  }
+}
+
+.student-list .responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+  border-spacing: 0;
+  border-collapse: initial;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table {
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 62em) {
+  .student-list .responsive-table {
+    font-size: 1em;
+  }
+}
+
+.student-list .responsive-table thead {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table thead {
+    position: relative;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: auto;
+  }
+}
+
+.student-list .responsive-table thead th {
+  background-color: #428bca;
+  border: 1px solid #1d5586;
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+
+.student-list .responsive-table thead th:first-of-type {
+  text-align: left;
+}
+
+.student-list .responsive-table tbody,
+.student-list .responsive-table tr,
+.student-list .responsive-table th,
+.student-list .responsive-table td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tr {
+    display: table-row;
+  }
+}
+
+.student-list .responsive-table th,
+.student-list .responsive-table td {
+  padding: 0.5em;
+  vertical-align: middle;
+}
+
+@media (min-width: 30em) {
+
+  .student-list .responsive-table th,
+  .student-list .responsive-table td {
+    padding: 0.75em 0.5em;
+  }
+}
+
+@media (min-width: 48em) {
+
+  .student-list .responsive-table th,
+  .student-list .responsive-table td {
+    display: table-cell;
+    padding: 0.5em;
+  }
+}
+
+@media (min-width: 62em) {
+
+  .student-list .responsive-table th,
+  .student-list .responsive-table td {
+    padding: 0.75em 0.5em;
+  }
+}
+
+@media (min-width: 75em) {
+
+  .student-list .responsive-table th,
+  .student-list .responsive-table td {
+    padding: 0.75em;
+  }
+}
+
+.student-list .responsive-table caption {
+  margin-bottom: 1em;
+  font-size: 1em;
+  font-weight: bold;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
+@media (min-width: 48em) {
+  .student-list .responsive-table caption {
+    font-size: 1.5em;
   }
 }
 
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.student-list .responsive-table tfoot {
+  font-size: 0.8em;
+  font-style: italic;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+@media (min-width: 62em) {
+  .student-list .responsive-table tfoot {
+    font-size: 0.9em;
+  }
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody {
+    display: table-row-group;
   }
 }
+
+.student-list .responsive-table tbody tr {
+  margin-bottom: 1em;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody tr {
+    display: table-row;
+    border-width: 1px;
+  }
+}
+
+.student-list .responsive-table tbody tr:last-of-type {
+  margin-bottom: 0;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+}
+
+.student-list .responsive-table tbody th[scope=row] {
+  background-color: #428bca;
+  color: white;
+}
+
+@media (min-width: 30em) {
+  .student-list .responsive-table tbody th[scope=row] {
+    border-left: 1px solid #1d5586;
+    border-bottom: 1px solid #1d5586;
+  }
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody th[scope=row] {
+    background-color: transparent;
+    color: #000001;
+    text-align: left;
+  }
+}
+
+.student-list .responsive-table tbody td {
+  text-align: right;
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody td {
+    border-left: 1px solid #1d5586;
+    border-bottom: 1px solid #1d5586;
+    text-align: center;
+  }
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody td:last-of-type {
+    border-right: 1px solid #1d5586;
+  }
+}
+
+.student-list .responsive-table tbody td[data-type=currency] {
+  text-align: right;
+}
+
+.student-list .responsive-table tbody td[data-title]:before {
+  content: attr(data-title);
+  float: left;
+  font-size: 0.8em;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+@media (min-width: 30em) {
+  .student-list .responsive-table tbody td[data-title]:before {
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 48em) {
+  .student-list .responsive-table tbody td[data-title]:before {
+    content: none;
+  }
+}
+.student-list .badge{
+  margin-right: 3px;
+}
+.student-list .badge-pill{
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+.student-list .badge-info{
+  color: #fff;
+  background-color: #17a2b8;
+}
+.student-list .badge-info:hover, .student-list .badge-info:focus {
+  color: #fff;
+  background-color: #117a8b;
+}
+.student-list .badge-warning{
+  color: #212529;
+  background-color: #ffc107;
+}
+
+.student-list .badge-warning:hover, .student-list .badge-warning:focus {
+  color: #212529;
+  background-color: #d39e00;
+}
+.student-list .badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.student-list .badge-danger:hover, .student-list .badge-danger:focus {
+  color: #fff;
+  background-color: #bd2130;
+}
+.student-list .badge-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.student-list .badge-dark:hover, .student-list .badge-dark:focus {
+  color: #fff;
+  background-color: #1d2124;
+}
+
+.student-list .d-block{
+  display: block;
+}
+.student-list .cursor-pointer{
+  cursor: pointer;
+}
+.student-list .bs-pencil-square{
+  color: #428bca;
+  font-size: 20px;
+  transition: .2s;
+}
+.student-list .bs-pencil-square:hover, .student-list .bs-pencil-square:focus{
+  color: #1d5586;
+  font-size: 18px;
+}
+.student-list .bs-trash2-fill{
+  color: #dc3545;
+  font-size: 20px;
+  transition: .2s;
+}
+.student-list .bs-trash2-fill:hover, .student-list .bs-trash2-fill:focus{
+  color: #bd2130;
+  font-size: 18px;
+}
+
+/* StudentList css end */
