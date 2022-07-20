@@ -11,6 +11,10 @@ const StudentList: FC = () => {
     const students = useAppSelector(selectStudents);
     const {setStudentEdit, setIsUpdate} = useStudentEdit();
 
+    const parseJSON = (json: string) => {
+        return JSON.parse(json);
+    }
+
     const editStudent = (student: Student) => {
         setStudentEdit(student);
         setIsUpdate(true);
@@ -36,9 +40,9 @@ const StudentList: FC = () => {
                             <th scope="col">Phone Number</th>
                             <th scope="col">Gender</th>
                             <th scope="col">Address</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">State</th>
                             <th scope="col">City</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Country</th>
                             <th scope="col">Skills</th>
                             <th scope="col">Sports</th>
                             <th scope="col">Actions</th>
@@ -55,9 +59,9 @@ const StudentList: FC = () => {
                                     <td data-title="Phone Number">{student.phone}</td>
                                     <td data-title="Gender" >{student.gender}</td>
                                     <td data-title="Address">{student.address}</td>
-                                    <td data-title="Country">{student.country}</td>
-                                    <td data-title="State">{student.state}</td>
-                                    <td data-title="City">{student.city}</td>
+                                    <td data-title="City">{parseJSON(student.city).name}</td>
+                                    <td data-title="State">{parseJSON(student.state).name}</td>
+                                    <td data-title="Country">{parseJSON(student.country).name}</td>
                                     <td data-title="Skills">
                                         {student.skills.map((skill, skillIndex) => (
                                             <span key={skillIndex} className="badge badge-pill badge-dark">{skill}</span>

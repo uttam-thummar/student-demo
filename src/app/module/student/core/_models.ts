@@ -25,39 +25,26 @@ export type Student = {
 
 export type StudentInput = Omit<Student, 'id'>
 
+export type Country = {
+    id: number
+    iso2: string
+    name: string
+}
 export type State = {
     id: number
+    iso2: string
     name: string
-    country_id: number
-    country_code: string
-    country_name: string
-    state_code: string
-    type: string | null
-    latitude: string | null
-    longitude: string | null
 } | {
     id: 0
+    iso2: null
     name: string
-    country_id?: number
-    country_name: string
 }
 export type City = {
     id: number
     name: string
-    state_id: number
-    state_code: string
-    state_name: string
-    country_id: number
-    country_code: string
-    country_name: string
-    latitude: string
-    longitude: string
-    wikiDataId: string
 } | {
     id: 0
-    name: string
-    state_id: 0
-    state_name: "No State"
+    name: "No Cities"
 }
 
 export type StudentEditContextProps = {

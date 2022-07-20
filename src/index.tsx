@@ -6,9 +6,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { PersistGate } from 'redux-persist/integration/react';
+import { setupAxios } from './helpers/AxiosHelper';
+import axios from 'axios';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+setupAxios(axios);
 
 root.render(
   <>

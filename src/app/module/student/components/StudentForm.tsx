@@ -4,11 +4,9 @@ import { useForm } from 'react-hook-form';
 import { addStudentsToState, updateStudentInState } from '../../../../features/student/studentSlice';
 import { useAppDispatch } from '../../../_redux/hooks';
 import { sportOptionArray } from '../core/_data';
-import { City, SportOption, SportOptions, State, Student, StudentInput } from '../core/_models';
-import countriesJSON from '../core/countries.json';
-import statesJSON from '../core/states.json';
-import citiesJSON from '../core/cities.json';
+import { City, Country, SportOption, SportOptions, State, Student, StudentInput } from '../core/_models';
 import { useStudentEdit } from '../core/StudentEditContextProvider';
+import { getCitiesByStateAndCountry, getCountries, getStatesByCountries } from '../core/_requests';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -18,95 +16,64 @@ const StudentForm: FC = () => {
     const multiselectRef = useRef<Multiselect>(null);
     const dispatch = useAppDispatch();
     const { studentEdit, setStudentEdit, isUpdate, setIsUpdate } = useStudentEdit();
-    const [countries] = useState(countriesJSON);
+    const [countries, setCountries] = useState<Array<Country>>([]);
     const [states, setStates] = useState<Array<State>>([]);
     const [cities, setCities] = useState<Array<City>>([]);
     const [sportsOptions] = useState<SportOptions>(sportOptionArray);
     const [selectedSports, setSelectedSports] = useState<SportOptions>([]);
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<StudentInput>();
-    const fetchStatesByCountry = (e: React.ChangeEvent<HTMLSelectElement> | null, countryName = '') => {
+    const [countryLoading, setCountryLoading] = useState(true);
+    const [stateLoading, setStateLoading] = useState(false);
+    const [cityLoading, setCityLoading] = useState(false);
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<StudentInput>();
+    const watchCountry = watch('country');
+    const fetchCountries = async () => {
+        const response = await getCountries();
+        setCountries(response);
+        setCountryLoading(false);
+    }
+    const fetchStatesByCountry = async (countryJSON: string) => {
+        setStateLoading(true);
         setStates([]);
         setCities([]);
         setValue('state', '');
-        setValue('city', '')
-        if (e !== null) {
-            const countryId = e.target.selectedOptions[0].getAttribute('data-country-id');
-            if (countryId === null) {
-                setStates([]);
-                return;
-            }
-            const statesArray: Array<State> = statesJSON.filter((state) => state.country_id === parseInt(countryId));
-            // setStates(statesArray);
+        setValue('city', '');
+        try {
+            const country = JSON.parse(countryJSON);
+            const statesArray = await getStatesByCountries(country.iso2);
             if(statesArray.length > 0){
                 setStates(statesArray);
                 setCities([]);
             }else{
                 setStates([{
                     id: 0,
-                    name: "No States",
-                    country_id: parseInt(countryId),
-                    country_name: e.target.value
+                    iso2: null,
+                    name: "No States"
                 }]);
                 setCities([]);
             }
-            return;
-        } else if (countryName !== '') {
-            const statesArray: Array<State> = statesJSON.filter((state) => state.country_name === countryName);
-            // setStates(statesArray);
-            if(statesArray.length > 0){
-                setStates(statesArray);
-                setCities([]);
-            }else{
-                setStates([{
-                    id: 0,
-                    name: "No States",
-                    country_name: countryName
-                }]);
-                setCities([])
-            }
-            return;
+        } catch (error) {
+            setStates([]);
         }
-        setStates([]);
-        setCities([]);
-        return;
+        setStateLoading(false);
     }
-    const fetchCitiesByState = (e: React.ChangeEvent<HTMLSelectElement> | null, stateName = '') => {
-        if (e !== null) {
-            const stateId = e.target.selectedOptions[0].getAttribute('data-state-id');
-            if (stateId === null) {
-                setCities([]);
-                return;
-            }
-            const citiesArray: Array<City> = citiesJSON.filter((city: City) => city.state_id === parseInt(stateId));
-            // setCities(citiesArray);
+    const fetchCitiesByState = async (stateJSON: string) => {
+        setCityLoading(true);
+        try {
+            const country = JSON.parse(watchCountry);
+            const state = JSON.parse(stateJSON);
+            const citiesArray = await getCitiesByStateAndCountry(country.iso2, state.iso2);
             if(citiesArray.length > 0){
                 setCities(citiesArray);
             }else{
                 setCities([{
                     id: 0,
-                    name: "No City",
-                    state_id: 0,
-                    state_name: "No State"
+                    name: "No Cities",
                 }]);
             }
-            return;
-        } else if (stateName !== '') {
-            const citiesArray: Array<City> = citiesJSON.filter((city: City) => city.state_name === stateName);
-            // setCities(citiesArray);
-            if(citiesArray.length > 0){
-                setCities(citiesArray);
-            }else{
-                setCities([{
-                    id: 0,
-                    name: "No City",
-                    state_id: 0,
-                    state_name: "No State"
-                }]);
-            }
-            return;
+        } catch (error) {
+            setCities([]);
         }
-        setCities([]);
-        return;
+        setCityLoading(false);
     }
     const onSportSelect = (selectedList: SportOptions, selectedItem: SportOption) => {
         setSelectedSports(selectedList)
@@ -129,8 +96,8 @@ const StudentForm: FC = () => {
     }
     useEffect(() => {
         if (studentEdit !== null) {
-            fetchStatesByCountry(null, studentEdit.country)
-            fetchCitiesByState(null, studentEdit.state);
+            fetchStatesByCountry(studentEdit.country)
+            fetchCitiesByState(studentEdit.state);
             setValue('prefix', studentEdit.prefix);
             setValue('firstname', studentEdit.firstname);
             setValue('lastname', studentEdit.lastname);
@@ -149,7 +116,12 @@ const StudentForm: FC = () => {
             reset();
             setSelectedSports([]);
         }
+        //eslint-disable-next-line
     }, [studentEdit]);
+
+    useEffect(() => {
+        fetchCountries();
+    }, []);
 
     return (
         <>
@@ -363,16 +335,15 @@ const StudentForm: FC = () => {
                                                         className='form-control'
                                                         id='country'
                                                         {...register('country', {
-                                                            onChange: (e) => fetchStatesByCountry(e),
+                                                            onChange: (e) => fetchStatesByCountry(e.target.value),
                                                             required: "Please select country.",
                                                         })}
                                                     >
-                                                        <option value=''>----- select -----</option>
+                                                        <option value=''>----- {countryLoading ? 'Loading' : 'select'} -----</option>
                                                         {countries.map((country, i) => (
                                                             <option
                                                                 key={i}
-                                                                data-country-id={country.id}
-                                                                value={country.name}
+                                                                value={JSON.stringify(country)}
                                                             >{country.name}</option>
                                                         ))}
                                                     </select>
@@ -388,16 +359,15 @@ const StudentForm: FC = () => {
                                                         className='form-control'
                                                         id='state'
                                                         {...register('state', {
-                                                            onChange: (e) => fetchCitiesByState(e),
+                                                            onChange: (e) => fetchCitiesByState(e.target.value),
                                                             required: "Please select state.",
                                                         })}
                                                     >
-                                                        <option value=''>----- select -----</option>
+                                                        <option value=''>----- {stateLoading ? 'Loading' : 'select'} -----</option>
                                                         {states.map((state, i) => (
                                                             <option
                                                                 key={i}
-                                                                data-state-id={state.id}
-                                                                value={state.name}
+                                                                value={JSON.stringify(state)}
                                                             >{state.name}</option>
                                                         ))}
                                                     </select>
@@ -416,12 +386,11 @@ const StudentForm: FC = () => {
                                                             required: "Please select city.",
                                                         })}
                                                     >
-                                                        <option value=''>----- select -----</option>
+                                                        <option value=''>----- {cityLoading ? 'Loading' : 'select'} -----</option>
                                                         {cities.map((city, i) => (
                                                             <option
                                                                 key={i}
-                                                                data-city-id={city.id}
-                                                                value={city.name}
+                                                                value={JSON.stringify(city)}
                                                             >{city.name}</option>
                                                         ))}
                                                     </select>
